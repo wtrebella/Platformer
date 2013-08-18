@@ -32,9 +32,9 @@ public class WTMainScene : WTScene {
 		int xTile = Random.Range(0, tileMap.mapWidth);
 		int yTile = Random.Range(0, tileMap.mapHeight);
 
-		player = new WTPlayer("player", WTConfig.tileSize, WTConfig.tileSize);
-		player.x = (xTile + 0.5f) * WTConfig.tileSize;
-		player.y = (yTile + 0.5f) * WTConfig.tileSize;
+		player = new WTPlayer(WTConfig.tileSize, WTConfig.tileSize);
+		Vector2 newPos = WTTileMap.instance.GetPositionForTile(xTile, yTile);
+		player.SetPosition(newPos);
 		AddChild(player);
 	}
 

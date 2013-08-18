@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\WTPhysicsNode.cs" />
      <Compile Include="Assets\Scripts\WTPlayer.cs" />
      <Compile Include="Assets\Scripts\WTScene.cs" />
+     <Compile Include="Assets\Scripts\WTTileData.cs" />
      <Compile Include="Assets\Scripts\WTTileMap.cs" />
      <Compile Include="Assets\Scripts\WTUtils.cs" />
      <Compile Include="Assets\Scripts\WTWall.cs" />
