@@ -24,23 +24,23 @@ public class WTPlayer : WTPhysicsNode {
 	}
 
 	public void HandleUpdate() {
-		acceleration = new Vector2(0, -50);
+		acceleration = new Vector2(0, -10);
 		velocity = new Vector2(velocity.x + acceleration.x, velocity.y + acceleration.y);
 
 		float speed = 300;
 
 		if (Input.GetKey(KeyCode.RightArrow)) {
-			SetDeltaPosition(speed * Time.deltaTime, 0);
+			velocity.x = speed;
 		}
 		else if (Input.GetKey(KeyCode.LeftArrow)) {
-			SetDeltaPosition(-speed * Time.deltaTime, 0);
+			velocity.x = -speed;
 		}
 
-		if (Input.GetKey(KeyCode.UpArrow)) {
-			SetDeltaPosition(0, speed * Time.deltaTime);
+		if (Input.GetKeyUp(KeyCode.RightArrow)) {
+			velocity.x = 0;
 		}
-		else if (Input.GetKey(KeyCode.DownArrow)) {
-			SetDeltaPosition(0, -speed * Time.deltaTime);
+		else if (Input.GetKeyUp(KeyCode.LeftArrow)) {
+			velocity.x = -0;
 		}
 
 		SetNewPosition(GetPosition().x + velocity.x * Time.deltaTime, GetPosition().y + velocity.y * Time.deltaTime);
