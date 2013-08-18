@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{AF19D062-9D25-45B8-3374-37C86561FCB2}</ProjectGuid>
+	<ProjectGuid>{100AE41E-9853-00A1-0814-C759729749EB}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -44,13 +44,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Resources\WTEntity Stuff\WTComponent.cs" />
+     <Compile Include="Assets\Resources\WTEntity Stuff\WTEntity.cs" />
+     <Compile Include="Assets\Resources\WTEntity Stuff\WTSpriteComponent.cs" />
      <Compile Include="Assets\Scripts\Enums.cs" />
-     <Compile Include="Assets\Scripts\WTComponent.cs" />
-     <Compile Include="Assets\Scripts\WTEntity.cs" />
      <Compile Include="Assets\Scripts\WTMain.cs" />
      <Compile Include="Assets\Scripts\WTPhysicsComponent.cs" />
      <Compile Include="Assets\Scripts\WTPhysicsNode.cs" />
-     <Compile Include="Assets\Scripts\WTSpriteComponent.cs" />
      <Compile Include="Assets\Scripts\WTUtils.cs" />
      <Compile Include="Assets\Scripts\WTWall.cs" />
      <None Include="Assets\Resources\Atlases\MainSheet-res1.txt" />
@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{CC0B3F40-54CB-A901-BB17-3C6CFFCD4CC8}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{BCFC5CD0-6A57-D3FC-62E6-5F2C401A0DB7}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

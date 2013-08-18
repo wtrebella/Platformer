@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WTMain : MonoBehaviour {
+	WTBasicWall player;
+
 	void Start() {
 		Go.defaultEaseType = EaseType.SineInOut;
 
@@ -18,48 +20,42 @@ public class WTMain : MonoBehaviour {
 
 		Futile.atlasManager.LoadAtlas("Atlases/MainSheet");
 		Futile.atlasManager.LoadFont("franchise", "franchise", "Atlases/franchise", -7, -16);
-
 		// futile done initing
 
 		WTUtils.Init();
 
 		FPWorld.Create(64.0f);
 
-		FSprite squareSprite = new FSprite("coolSquare");
+		float blockSize = 32;
+		int minFloorBlockCount = (int)Futile.screen.width / 16;
 
-		WTPhysicsNode square = new WTPhysicsNode("square");
-		square.AddChild(squareSprite);
-		square.physicsComponent.AddRigidBody(1, 10);
-		square.physicsComponent.AddBoxCollider(squareSprite.width, squareSprite.height);
-		square.physicsComponent.SetupPhysicMaterial(1.0f, 0.0f, 0.0f, PhysicMaterialCombine.Maximum);
-		square.SetNewPosition(WTUtils.screenCenter);
+		for (int i = 0; i < minFloorBlockCount; i++) {
+			WTBasicWall block = new WTBasicWall(blockSize, blockSize);
+			block.SetNewPosition(i * blockSize + blockSize / 2f, blockSize / 2f);
+			Futile.stage.AddChild(block);
 
-		square.physicsComponent.StartPhysics();
-		square.physicsComponent.AddForce(7000, 5000);
+			int extraHeight = Random.Range(0, 3);
+			
+			for (int j = 0; j < extraHeight; j++) {
+				block = new WTBasicWall(blockSize, blockSize);
+				block.SetNewPosition(i * blockSize + blockSize / 2f, j * blockSize + blockSize * 1.5f);
+				Futile.stage.AddChild(block);
+			}
+		}
 
-		Futile.stage.AddChild(square);
-
-		float wallThickness = 10;
-
-		WTWall leftWall = new WTWall(wallThickness, Futile.screen.height);
-		WTWall rightWall = new WTWall(wallThickness, Futile.screen.height);
-		WTWall bottomWall = new WTWall(Futile.screen.width, wallThickness);
-		WTWall topWall = new WTWall(Futile.screen.width, wallThickness);
-
-		leftWall.SetPosition(wallThickness/2f, Futile.screen.halfHeight);
-		rightWall.SetPosition(Futile.screen.width - wallThickness/2f, Futile.screen.halfHeight);
-		bottomWall.SetPosition(Futile.screen.halfWidth, wallThickness/2f);
-		topWall.SetPosition(Futile.screen.halfWidth, Futile.screen.height - wallThickness/2f);
-
-		Futile.stage.AddChild(leftWall);
-		Futile.stage.AddChild(rightWall);
-		Futile.stage.AddChild(bottomWall);
-		Futile.stage.AddChild(topWall);
+		player = new WTBasicWall(blockSize, blockSize);
+		player.sprite.color = Color.red;
+		player.SetNewPosition(Futile.screen.halfWidth, blockSize * 4.5f);
+		player.SetNewRotation(37);
+		player.physicsComponent.AddRigidBody(1.0f, 1.0f);
+		player.physicsComponent.SetupPhysicMaterial(0.0f, 0.5f, 0.5f);
+		player.physicsComponent.StartPhysics();
+		Futile.stage.AddChild(player);
 	}
-	
+
 	void Update() {
-//		if (frog.physicsNode.CanMoveInCode()) {
-//			frog.rotation += 3;
-//		}
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			player.physicsComponent.AddForce(0, 300);
+		}
 	}
 }
