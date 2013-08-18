@@ -19,4 +19,8 @@ public static class WTUtils {
 		defaultRigidBodyAngularDrag = 1.0f;
 		defaultRigidBodyMass = 10.0f;
 	}
+
+	public static WTPhysicsNode physicsNodeAttachedToGameObject(GameObject gameObject) {
+		return gameObject.GetComponent<WTPhysicsComponent>().container;
+	}
 }

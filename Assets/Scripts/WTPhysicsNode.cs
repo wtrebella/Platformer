@@ -35,8 +35,8 @@ public class WTPhysicsNode : FContainer {
 		physicsComponent.Init(Vector2.zero, 0, this);
 		physicsComponent.SignalOnCollisionEnter += HandleOnCollisionEnter;
 		physicsComponent.SignalOnTriggerEnter += HandleOnTriggerEnter;
-		physicsComponent.SignalOnTriggerEnter += HandleOnTriggerExit;
-		physicsComponent.SignalOnTriggerEnter += HandleOnTriggerStay;
+		physicsComponent.SignalOnTriggerExit += HandleOnTriggerExit;
+		physicsComponent.SignalOnTriggerStay += HandleOnTriggerStay;
 		UpdatePosition();
 		UpdateRotation();
 	}
@@ -88,5 +88,13 @@ public class WTPhysicsNode : FContainer {
 	public void SetNewRotation(float rot) {
 		rotation = rot;
 		UpdateRotation();
+	}
+
+	public void SetDeltaPosition(float xDelta, float yDelta) {
+		SetNewPosition(x + xDelta, y + yDelta);
+	}
+
+	public void SetDeltaRotation(float deltaRot) {
+		SetNewRotation(rotation + deltaRot);
 	}
 }

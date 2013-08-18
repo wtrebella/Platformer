@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WTMain : MonoBehaviour {
-	WTBasicWall player;
+	WTScene currentScene;
+	WTHandler handler;
 
 	void Start() {
 		Go.defaultEaseType = EaseType.SineInOut;
@@ -24,38 +25,26 @@ public class WTMain : MonoBehaviour {
 
 		WTUtils.Init();
 
+		handler = new WTHandler();
+		handler.SignalUpdate += HandleUpdate;
+		handler.SignalMultiTouch += HandleMultiTouch;
+		Futile.stage.AddChild(handler);
+
 		FPWorld.Create(64.0f);
 
-		float blockSize = 32;
-		int minFloorBlockCount = (int)Futile.screen.width / 16;
-
-		for (int i = 0; i < minFloorBlockCount; i++) {
-			WTBasicWall block = new WTBasicWall(blockSize, blockSize);
-			block.SetNewPosition(i * blockSize + blockSize / 2f, blockSize / 2f);
-			Futile.stage.AddChild(block);
-
-			int extraHeight = Random.Range(0, 3);
-			
-			for (int j = 0; j < extraHeight; j++) {
-				block = new WTBasicWall(blockSize, blockSize);
-				block.SetNewPosition(i * blockSize + blockSize / 2f, j * blockSize + blockSize * 1.5f);
-				Futile.stage.AddChild(block);
-			}
-		}
-
-		player = new WTBasicWall(blockSize, blockSize);
-		player.sprite.color = Color.red;
-		player.SetNewPosition(Futile.screen.halfWidth, blockSize * 4.5f);
-		player.SetNewRotation(37);
-		player.physicsComponent.AddRigidBody(1.0f, 1.0f);
-		player.physicsComponent.SetupPhysicMaterial(0.0f, 0.5f, 0.5f);
-		player.physicsComponent.StartPhysics();
-		Futile.stage.AddChild(player);
+		currentScene = new WTMainScene();
+		Futile.stage.AddChild(currentScene);
 	}
 
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			player.physicsComponent.AddForce(0, 300);
-		}
+
+	}
+
+	public void HandleUpdate() {
+		currentScene.HandleUpdate();
+	}
+
+	public void HandleMultiTouch(FTouch[] touches) {
+		currentScene.HandleMultiTouch(touches);
 	}
 }

@@ -15,11 +15,11 @@ public class WTPhysicsComponent : MonoBehaviour
 		return physicsNode;
 	}
 	
-	public FContainer container;
+	public WTPhysicsNode container;
 
 	public FPNodeLink nodeLink;
 
-	public void Init(Vector2 startPos, float startRotation, FContainer container) {
+	public void Init(Vector2 startPos, float startRotation, WTPhysicsNode container) {
 		this.container = container;
 		container.rotation = startRotation;
 
@@ -44,6 +44,10 @@ public class WTPhysicsComponent : MonoBehaviour
 		if (rigidbody == null) return;
 
 		rigidbody.isKinematic = true;
+	}
+
+	public void SetIsTrigger(bool isTrigger) {
+		gameObject.GetComponent<Collider>().isTrigger = isTrigger;
 	}
 
 	public void Destroy() {
