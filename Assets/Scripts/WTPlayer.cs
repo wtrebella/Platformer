@@ -23,7 +23,7 @@ public class WTPlayer : WTPhysicsNode {
 		physicsComponent.SetIsTrigger(true);
 	}
 
-	public void HandleUpdate() {
+	override public void HandleUpdate() {
 		acceleration = new Vector2(0, -10);
 		velocity = new Vector2(velocity.x + acceleration.x, velocity.y + acceleration.y);
 
@@ -43,27 +43,27 @@ public class WTPlayer : WTPhysicsNode {
 			velocity.x = -0;
 		}
 
-		SetNewPosition(GetPosition().x + velocity.x * Time.deltaTime, GetPosition().y + velocity.y * Time.deltaTime);
+		SetPosition(GetPosition().x + velocity.x * Time.deltaTime, GetPosition().y + velocity.y * Time.deltaTime);
 
 		for (int i = 0; i < collidedBlocks.Count; i++) {
-			WTBasicWall block = (WTBasicWall)collidedBlocks[i];
+			WTWall block = (WTWall)collidedBlocks[i];
 			if (GetPosition().y - sprite.height / 2f < block.GetPosition().y + block.sprite.height / 2f) {
-				SetNewPosition(GetPosition().x, block.GetPosition().y + block.sprite.height / 2f + sprite.height / 2f);
+				SetPosition(GetPosition().x, block.GetPosition().y + block.sprite.height / 2f + sprite.height / 2f);
 			}
 		}
 	}
 
 	override public void HandleOnTriggerEnter(Collider coll) {
-		WTBasicWall block = (WTBasicWall)WTUtils.physicsNodeAttachedToGameObject(coll.gameObject);
+		WTWall block = (WTWall)WTUtils.physicsNodeAttachedToGameObject(coll.gameObject);
 		collidedBlocks.Add(block);
 	}
 
 	override public void HandleOnTriggerExit(Collider coll) {
-		WTBasicWall block = (WTBasicWall)WTUtils.physicsNodeAttachedToGameObject(coll.gameObject);
+		WTWall block = (WTWall)WTUtils.physicsNodeAttachedToGameObject(coll.gameObject);
 		collidedBlocks.Remove(block);
 	}
 
 	override public void HandleOnTriggerStay(Collider coll) {
-		WTBasicWall block = (WTBasicWall)WTUtils.physicsNodeAttachedToGameObject(coll.gameObject);
+		//WTWall block = (WTWall)WTUtils.physicsNodeAttachedToGameObject(coll.gameObject);
 	}
 }

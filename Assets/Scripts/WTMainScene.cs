@@ -5,30 +5,41 @@ public class WTMainScene : WTScene {
 	WTPlayer player;
 
 	public WTMainScene() {
-		float blockSize = 32;
-		int minFloorBlockCount = (int)Futile.screen.width / 16;
+//		float blockSize = 32;
+//		int minFloorBlockCount = (int)Futile.screen.width / 16;
+//
+//		for (int i = 0; i < minFloorBlockCount; i++) {
+//			WTWall block = new WTWall(blockSize, blockSize);
+//			block.SetPosition(i * blockSize + blockSize / 2f, blockSize / 2f);
+//			Futile.stage.AddChild(block);
+//
+//			int extraHeight = Random.Range(0, 3);
+//
+//			for (int j = 0; j < extraHeight; j++) {
+//				block = new WTWall(blockSize, blockSize);
+//				block.SetPosition(i * blockSize + blockSize / 2f, j * blockSize + blockSize * 1.5f);
+//				Futile.stage.AddChild(block);
+//			}
+//		}
 
-		for (int i = 0; i < minFloorBlockCount; i++) {
-			WTBasicWall block = new WTBasicWall(blockSize, blockSize);
-			block.SetNewPosition(i * blockSize + blockSize / 2f, blockSize / 2f);
-			Futile.stage.AddChild(block);
+//		player = new WTPlayer("player", 16, 16);
+//		player.SetPosition(Futile.screen.halfWidth, blockSize * 4.5f);
+//		AddChild(player);
 
-			int extraHeight = Random.Range(0, 3);
+		WTTileMap tileMap = new WTTileMap(25, 20);
+		AddChild(tileMap);
 
-			for (int j = 0; j < extraHeight; j++) {
-				block = new WTBasicWall(blockSize, blockSize);
-				block.SetNewPosition(i * blockSize + blockSize / 2f, j * blockSize + blockSize * 1.5f);
-				Futile.stage.AddChild(block);
-			}
-		}
+		int xTile = Random.Range(0, tileMap.mapWidth);
+		int yTile = Random.Range(0, tileMap.mapHeight);
 
-		player = new WTPlayer("player", 16, 16);
-		player.SetNewPosition(Futile.screen.halfWidth, blockSize * 4.5f);
+		player = new WTPlayer("player", WTConfig.tileSize, WTConfig.tileSize);
+		player.x = (xTile + 0.5f) * WTConfig.tileSize;
+		player.y = (yTile + 0.5f) * WTConfig.tileSize;
 		AddChild(player);
 	}
 
 	override public void HandleUpdate() {
-		player.HandleUpdate();
+		//player.HandleUpdate();
 	}
 
 	override public void HandleMultiTouch(FTouch[] touches) {

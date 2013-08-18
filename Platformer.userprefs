@@ -1,14 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WTMainScene.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WTTileMap.cs">
     <Files>
-      <File FileName="Assets/Scripts/WTMain.cs" Line="41" Column="3" />
+      <File FileName="Assets/Scripts/WTMain.cs" Line="36" Column="1" />
       <File FileName="Assets/Scripts/WTPhysicsComponent.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTPhysicsNode.cs" Line="98" Column="39" />
-      <File FileName="Assets/Scripts/WTWall.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTMainScene.cs" Line="31" Column="80" />
-      <File FileName="Assets/Scripts/WTHandler.cs" Line="26" Column="3" />
-      <File FileName="Assets/Scripts/WTScene.cs" Line="4" Column="21" />
+      <File FileName="Assets/Scripts/WTPhysicsNode.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTWall.cs" Line="20" Column="2" />
+      <File FileName="Assets/Scripts/WTMainScene.cs" Line="29" Column="43" />
+      <File FileName="Assets/Scripts/WTHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTScene.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTPlayer.cs" Line="67" Column="15" />
+      <File FileName="Assets/Scripts/WTUtils.cs" Line="1" Column="1" />
+      <File FileName="Assets/Plugins/Futile/Display/FNode.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTTileMap.cs" Line="41" Column="34" />
+      <File FileName="Assets/Scripts/Enums.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTConfig.cs" Line="5" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

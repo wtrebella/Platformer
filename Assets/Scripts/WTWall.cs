@@ -3,10 +3,10 @@ using System.Collections;
 
 // just a stupid simple rigid wall for things to bounce off of
 
-public class WTBasicWall : WTPhysicsNode {
+public class WTWall : WTPhysicsNode {
 	public FSprite sprite;
 
-	public WTBasicWall(float width, float height) : base("wall") {
+	public WTWall(float width, float height) : base("wall") {
 		sprite = new FSprite("whiteSquare");
 		sprite.width = width;
 		sprite.height = height;
@@ -15,6 +15,6 @@ public class WTBasicWall : WTPhysicsNode {
 
 		physicsComponent.AddBoxCollider(sprite.width, sprite.height);
 		physicsComponent.SetupPhysicMaterial(1.0f, 0.1f, 0.1f);
-		SetNewPosition(WTUtils.screenCenter);
+		SetPosition(WTUtils.screenCenter);
 	}
 }

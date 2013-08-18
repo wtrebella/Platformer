@@ -76,25 +76,30 @@ public class WTPhysicsNode : FContainer {
 
 	}
 
-	public void SetNewPosition(float xNew, float yNew) {
-		SetPosition(xNew, yNew);
-		UpdatePosition();
+	override public float x {
+		get {return _x;}
+		set {
+			_x = value;
+			_isMatrixDirty = true;
+			UpdatePosition();
+		}
 	}
 
-	public void SetNewPosition(Vector2 position) {
-		SetNewPosition(position.x, position.y);
+	override public float y {
+		get {return _y;}
+		set {
+			_y = value;
+			_isMatrixDirty = true;
+			UpdatePosition();
+		}
 	}
 
-	public void SetNewRotation(float rot) {
-		rotation = rot;
-		UpdateRotation();
-	}
-
-	public void SetDeltaPosition(float xDelta, float yDelta) {
-		SetNewPosition(x + xDelta, y + yDelta);
-	}
-
-	public void SetDeltaRotation(float deltaRot) {
-		SetNewRotation(rotation + deltaRot);
+	override public float rotation {
+		get {return _rotation;}
+		set {
+			_rotation = value;
+			_isMatrixDirty = true;
+			UpdateRotation();
+		}
 	}
 }
