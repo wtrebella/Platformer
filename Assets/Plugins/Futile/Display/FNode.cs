@@ -31,7 +31,11 @@ public class FNode
 	protected bool _isAlphaDirty = false;
 	
 	protected bool _isOnStage = false;
-	
+
+	public bool isOnStage {
+		get {return _isOnStage;}
+	}
+
 	protected int _depth = 0;
 	
 	protected FStage _stage = null; //assigned in HandleAddedToStage

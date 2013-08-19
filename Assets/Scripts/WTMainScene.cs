@@ -30,11 +30,18 @@ public class WTMainScene : WTScene {
 		AddChild(tileMap);
 
 		int xTile = Random.Range(0, tileMap.mapWidth);
-		int yTile = Random.Range(0, tileMap.mapHeight);
+		int yTile = -1;
 
-		player = new WTPlayer(WTConfig.tileSize, WTConfig.tileSize);
-		Vector2 newPos = WTTileMap.instance.GetPositionForTile(xTile, yTile);
-		player.SetPosition(newPos);
+		for (int i = 0; i < tileMap.mapData[xTile].Length; i++) {
+			if (tileMap.mapData[xTile][i].tileType == TileType.Empty) {
+				yTile = i;
+				break;
+			}
+		}
+
+		player = new WTPlayer(WTConfig.tileSize / 2f, WTConfig.tileSize * 0.95f);
+		Vector2 newPos = WTTileMap.instance.GetOriginOfTile(xTile, yTile);
+		player.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + player.hitRect.height / 2f);
 		AddChild(player);
 	}
 

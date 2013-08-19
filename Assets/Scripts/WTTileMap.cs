@@ -40,7 +40,8 @@ public class WTTileMap : FContainer {
 
 				FSprite sprite = new FSprite("whiteSquare");
 				sprite.width = sprite.height = WTConfig.tileSize;
-				sprite.SetPosition(GetPositionForTile(i, j));
+				Vector2 newPos = GetOriginOfTile(i, j);
+				sprite.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f);
 				AddChild(sprite);
 				if (tileData.tileType == TileType.Solid) sprite.color = Color.black;
 				else if (tileData.tileType == TileType.Empty) sprite.color = Color.white;
@@ -48,17 +49,21 @@ public class WTTileMap : FContainer {
 		}
 	}
 
-	public Vector2 GetPositionForTile(int x, int y) {
-		return new Vector2((x + 0.5f) * WTConfig.tileSize, (y + 0.5f) * WTConfig.tileSize);
+	public Vector2 GetOriginOfTile(int x, int y) {
+		return new Vector2(x * WTConfig.tileSize, y * WTConfig.tileSize);
 	}
 
 	public WTTileData GetTileForPoint(float x, float y) {
 		int xTile, yTile;
 
-		xTile = (int)(x / WTConfig.tileSize);
-		yTile = (int)(y / WTConfig.tileSize);
+		xTile = (int)(x / (WTConfig.tileSize-1));
+		yTile = (int)(y / (WTConfig.tileSize-1));
 
 		if (xTile >= 0 && xTile < mapData.Length && yTile >= 0 && yTile < mapData[0].Length) return mapData[xTile][yTile];
 		else return null;
+	}
+
+	public WTTileData GetTileForPoint(Vector2 point) {
+		return GetTileForPoint(point.x, point.y);
 	}
 }

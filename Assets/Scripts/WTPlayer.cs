@@ -5,20 +5,37 @@ using System.Collections.Generic;
 public class WTPlayer : FContainer {
 	public Vector2 velocity;
 	FSprite sprite;
+	FContainer shellContainer;
+	public Rect hitRect;
+	List<WTTileData> surroundingTiles;
+	List<WTTileData> nextSurroundingTiles;
 
 	public WTPlayer(float width, float height) {
+		surroundingTiles = new List<WTTileData>();
+		nextSurroundingTiles = new List<WTTileData>();
+		shellContainer = new FContainer();
+		AddChild(shellContainer);
+
 		sprite = new FSprite("whiteSquare");
 		sprite.width = width;
 		sprite.height = height;
 		sprite.color = Color.red;
 		AddChild(sprite);
 
+		hitRect = new Rect(-width / 2f, -height / 2f, width, height);
+
 		ListenForUpdate(HandleUpdate);
 	}
 
 	public void HandleUpdate() {
-		//velocity = new Vector2(velocity.x + acceleration.x, velocity.y + acceleration.y);
+		if (!_isOnStage) return;
 
+		UpdateVelocity();
+		UpdateSurroundingTiles();
+		UpdateMovement();
+	}
+
+	private void UpdateVelocity() {
 		float speed = 300;
 
 		if (Input.GetKey(KeyCode.RightArrow)) {
@@ -35,33 +52,61 @@ public class WTPlayer : FContainer {
 			velocity.x = 0;
 		}
 
-		if (Input.GetKey(KeyCode.UpArrow)) {
-			velocity.y = speed;
+		//velocity.y -= 100;
+	}
+
+	private void UpdateMovement() {
+		shellContainer.x = this.x + velocity.x * Time.deltaTime;
+
+		WTTileData t1, t2;
+
+		if (shellContainer.x > this.x) {
+			t1 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalTopRightRectPoint(hitRect, shellContainer));
+			t2 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalBottomRightRectPoint(hitRect, shellContainer));
+			
+			if ((t1 != null && t1.tileType == TileType.Solid) || (t2 != null && t2.tileType == TileType.Solid)) {
+				shellContainer.x = WTTileMap.instance.GetOriginOfTile(t1.x, t1.y).x - WTConfig.tileSize / 2f;// hitRect.width / 2f;
+			}
 		}
-		else if (Input.GetKey(KeyCode.DownArrow)) {
-			velocity.y = -speed;
+		else if (shellContainer.x <= this.x) {
+			t1 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalTopLeftRectPoint(hitRect, shellContainer));
+			t2 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalBottomLeftRectPoint(hitRect, shellContainer));
+
+			if ((t1 != null && t1.tileType == TileType.Solid) || (t2 != null && t2.tileType == TileType.Solid)) {
+				shellContainer.x = WTTileMap.instance.GetOriginOfTile(t1.x + 1, t1.y).x + WTConfig.tileSize / 2f;// hitRect.width / 2f;
+			}
 		}
 
-		if (Input.GetKeyUp(KeyCode.UpArrow)) {
-			velocity.y = 0;
-		}
-		else if (Input.GetKeyUp(KeyCode.DownArrow)) {
-			velocity.y = 0;
-		}
+		this.x = shellContainer.x;
 
-		this.x += velocity.x * Time.deltaTime;
-		this.y += velocity.y * Time.deltaTime;
+//		shellContainer.y = this.y + velocity.y * Time.deltaTime;
+//
+//		WTTileData t1 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalTopLeftRectPoint(hitRect, shellContainer));
+//		WTTileData t2 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalTopRightRectPoint(hitRect, shellContainer));
+//		WTTileData t3 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalBottomRightRectPoint(hitRect, shellContainer));
+//		WTTileData t4 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalBottomLeftRectPoint(hitRect, shellContainer));
+//
+//		nextSurroundingTiles.Clear();
+//
+//		if (t1 != null && t1.tileType != TileType.Empty) nextSurroundingTiles.Add(t1);
+//		if (t2 != null && t2.tileType != TileType.Empty && !nextSurroundingTiles.Contains(t2)) nextSurroundingTiles.Add(t2);
+//		if (t3 != null && t3.tileType != TileType.Empty && !nextSurroundingTiles.Contains(t3)) nextSurroundingTiles.Add(t3);
+//		if (t4 != null && t4.tileType != TileType.Empty && !nextSurroundingTiles.Contains(t4)) nextSurroundingTiles.Add(t4);
+//
+//		shellContainer.RemoveFromContainer();
+	}
 
-//		for (int i = 0; i < collidedBlocks.Count; i++) {
-//			WTWall block = (WTWall)collidedBlocks[i];
-//			if (GetPosition().y - sprite.height / 2f < block.GetPosition().y + block.sprite.height / 2f) {
-//				SetPosition(GetPosition().x, block.GetPosition().y + block.sprite.height / 2f + sprite.height / 2f);
-//			}
-//		}
+	private void UpdateSurroundingTiles() {
+		WTTileData t1 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalTopLeftRectPoint(hitRect, this));
+		WTTileData t2 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalTopRightRectPoint(hitRect, this));
+		WTTileData t3 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalBottomRightRectPoint(hitRect, this));
+		WTTileData t4 = WTTileMap.instance.GetTileForPoint(WTUtils.GetGlobalBottomLeftRectPoint(hitRect, this));
 
-		WTTileData t1 = WTTileMap.instance.GetTileForPoint(this.x - WTConfig.tileSize / 2f, this.y + WTConfig.tileSize / 2f);
-		WTTileData t2 = WTTileMap.instance.GetTileForPoint(this.x + WTConfig.tileSize / 2f, this.y + WTConfig.tileSize / 2f);
-		WTTileData t3 = WTTileMap.instance.GetTileForPoint(this.x - WTConfig.tileSize / 2f, this.y - WTConfig.tileSize / 2f);
-		WTTileData t4 = WTTileMap.instance.GetTileForPoint(this.x + WTConfig.tileSize / 2f, this.y - WTConfig.tileSize / 2f);
+		surroundingTiles.Clear();
+
+		if (t1 != null && t1.tileType != TileType.Empty) surroundingTiles.Add(t1);
+		if (t2 != null && t2.tileType != TileType.Empty && !nextSurroundingTiles.Contains(t2)) surroundingTiles.Add(t2);
+		if (t3 != null && t3.tileType != TileType.Empty && !nextSurroundingTiles.Contains(t3)) surroundingTiles.Add(t3);
+		if (t4 != null && t4.tileType != TileType.Empty && !nextSurroundingTiles.Contains(t4)) surroundingTiles.Add(t4);
 	}
 }

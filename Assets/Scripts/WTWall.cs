@@ -11,9 +11,10 @@ public class WTWall : WTPhysicsNode {
 		sprite.width = width;
 		sprite.height = height;
 		sprite.color = new Color(0.1f, 0.1f, 0.1f);
+		sprite.scale = 0.95f;
 		AddChild(sprite);
 
-		physicsComponent.AddBoxCollider(sprite.width, sprite.height);
+		physicsComponent.AddBoxCollider(width, height);
 		physicsComponent.SetupPhysicMaterial(1.0f, 0.1f, 0.1f);
 		SetPosition(WTUtils.screenCenter);
 	}
