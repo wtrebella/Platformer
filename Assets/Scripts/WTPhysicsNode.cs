@@ -34,6 +34,8 @@ public class WTPhysicsNode : FContainer {
 		physicsComponent = WTPhysicsComponent.Create(name);
 		physicsComponent.Init(Vector2.zero, 0, this);
 		physicsComponent.SignalOnCollisionEnter += HandleOnCollisionEnter;
+		physicsComponent.SignalOnCollisionStay += HandleOnCollisionStay;
+		physicsComponent.SignalOnCollisionExit += HandleOnCollisionExit;
 		physicsComponent.SignalOnTriggerEnter += HandleOnTriggerEnter;
 		physicsComponent.SignalOnTriggerExit += HandleOnTriggerExit;
 		physicsComponent.SignalOnTriggerStay += HandleOnTriggerStay;
@@ -60,6 +62,14 @@ public class WTPhysicsNode : FContainer {
 
 	// this will be called whenever something hits it
 	virtual public void HandleOnCollisionEnter(Collision coll) {
+
+	}
+
+	virtual public void HandleOnCollisionStay(Collision coll) {
+
+	}
+
+	virtual public void HandleOnCollisionExit(Collision coll) {
 
 	}
 

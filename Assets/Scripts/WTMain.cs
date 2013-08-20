@@ -31,7 +31,7 @@ public class WTMain : MonoBehaviour {
 		Futile.stage.AddChild(handler);
 
 		FPWorld.Create(64.0f);
-
+	
 		currentScene = new WTMainScene();
 		Futile.stage.AddChild(currentScene);
 	}

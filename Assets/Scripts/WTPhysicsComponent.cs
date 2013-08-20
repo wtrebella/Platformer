@@ -5,6 +5,8 @@ using System;
 public class WTPhysicsComponent : MonoBehaviour
 {
 	public event Action<Collision> SignalOnCollisionEnter;
+	public event Action<Collision> SignalOnCollisionStay;
+	public event Action<Collision> SignalOnCollisionExit;
 	public event Action<Collider> SignalOnTriggerEnter;
 	public event Action<Collider> SignalOnTriggerExit;
 	public event Action<Collider> SignalOnTriggerStay;
@@ -111,6 +113,14 @@ public class WTPhysicsComponent : MonoBehaviour
 
 	void OnCollisionEnter(Collision coll) {
 		if (SignalOnCollisionEnter != null) SignalOnCollisionEnter(coll);
+	}
+
+	void OnCollisionStay(Collision coll) {
+		if (SignalOnCollisionStay != null) SignalOnCollisionStay(coll);
+	}
+
+	void OnCollisionExit(Collision coll) {
+		if (SignalOnCollisionExit != null) SignalOnCollisionExit(coll);
 	}
 
 	void OnTriggerEnter(Collider coll) {

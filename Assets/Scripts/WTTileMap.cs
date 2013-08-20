@@ -30,21 +30,21 @@ public class WTTileMap : FContainer {
 			}
 		}
 
-		GenerateSprites();
+		GenerateBlocks();
 	}
 
-	private void GenerateSprites() {
+	private void GenerateBlocks() {
 		for (int i = 0; i < mapData.Length; i++) {
 			for (int j = 0; j < mapData[i].Length; j++) {
 				WTTileData tileData = mapData[i][j];
 
-				FSprite sprite = new FSprite("whiteSquare");
-				sprite.width = sprite.height = WTConfig.tileSize;
-				Vector2 newPos = GetOriginOfTile(i, j);
-				sprite.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f);
-				AddChild(sprite);
-				if (tileData.tileType == TileType.Solid) sprite.color = Color.black;
-				else if (tileData.tileType == TileType.Empty) sprite.color = Color.white;
+				if (tileData.tileType == TileType.Solid) {
+					WTWall block = new WTWall(WTConfig.tileSize, WTConfig.tileSize);
+					Vector2 newPos = GetOriginOfTile(i, j);
+					block.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f);
+					block.sprite.color = Color.black;
+					AddChild(block);
+				}
 			}
 		}
 	}
