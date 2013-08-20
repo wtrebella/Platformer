@@ -24,17 +24,17 @@ public class WTPlayer : WTPhysicsNode {
 		physicsComponent.SetupPhysicMaterial(0.0f, 0.0f, 0.0f, PhysicMaterialCombine.Minimum);
 	}
 	
-	override public void HandleFixedUpdate() {
+	override public void HandleUpdate() {
 		float velAmt = 3000;
 
 		if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) isMoving = true;
 		else isMoving = false;
 
 		if (Input.GetKey(KeyCode.RightArrow)) {
-			velocity.x += velAmt * Time.fixedDeltaTime;
+			velocity.x += velAmt * Time.deltaTime;
 		}
 		else if (Input.GetKey(KeyCode.LeftArrow)) {
-			velocity.x -= velAmt * Time.fixedDeltaTime;
+			velocity.x -= velAmt * Time.deltaTime;
 		}
 
 		if (isOnGround && Input.GetKeyDown(KeyCode.Space)) {
@@ -58,7 +58,7 @@ public class WTPlayer : WTPhysicsNode {
 		RaycastHit rLowHit;
 		RaycastHit rHighHit;
 
-		float xRayDistance = Mathf.Abs(velocity.x * FPhysics.POINTS_TO_METERS * Time.fixedDeltaTime);
+		float xRayDistance = Mathf.Abs(velocity.x * FPhysics.POINTS_TO_METERS * Time.deltaTime);
 
 		// leftwards
 		if (velocity.x < 0) {
@@ -66,12 +66,6 @@ public class WTPlayer : WTPhysicsNode {
 				if (lLowHit.collider.gameObject.CompareTag("Solid")) {
 					this.x = (lLowHit.point.x + physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS + 0.01f;
 					velocity.x = 0;
-
-					FSprite s = new FSprite("whiteSquare");
-					s.scale = 0.3f;
-					s.SetPosition(lLowHit.point * FPhysics.METERS_TO_POINTS);
-					s.color = Color.red;
-					this.container.AddChild(s);
 				}
 			}
 
@@ -79,12 +73,6 @@ public class WTPlayer : WTPhysicsNode {
 				if (lHighHit.collider.gameObject.CompareTag("Solid")) {
 					this.x = (lHighHit.point.x + physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS + 0.01f;
 					velocity.x = 0;
-
-					FSprite s = new FSprite("whiteSquare");
-					s.scale = 0.3f;
-					s.SetPosition(lHighHit.point * FPhysics.METERS_TO_POINTS);
-					s.color = Color.red;
-					this.container.AddChild(s);
 				}
 			}
 		}
@@ -95,12 +83,6 @@ public class WTPlayer : WTPhysicsNode {
 				if (rLowHit.collider.gameObject.CompareTag("Solid")) {
 					this.x = (rLowHit.point.x - physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS - 0.01f;
 					velocity.x = 0;
-
-					FSprite s = new FSprite("whiteSquare");
-					s.scale = 0.3f;
-					s.SetPosition(rLowHit.point * FPhysics.METERS_TO_POINTS);
-					s.color = Color.red;
-					this.container.AddChild(s);
 				}
 			}
 
@@ -108,23 +90,17 @@ public class WTPlayer : WTPhysicsNode {
 				if (rHighHit.collider.gameObject.CompareTag("Solid")) {
 					this.x = (rHighHit.point.x - physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS - 0.01f;
 					velocity.x = 0;
-
-					FSprite s = new FSprite("whiteSquare");
-					s.scale = 0.3f;
-					s.SetPosition(rHighHit.point * FPhysics.METERS_TO_POINTS);
-					s.color = Color.red;
-					this.container.AddChild(s);
 				}
 			}
 		}
 
 		if (!isMoving) {
-			if (velocity.x - (drag.x * Time.fixedDeltaTime) > 0) velocity.x -= drag.x * Time.fixedDeltaTime;
-			else if (velocity.x + (drag.x * Time.fixedDeltaTime) < 0) velocity.x += drag.x * Time.fixedDeltaTime;
+			if (velocity.x - (drag.x * Time.deltaTime) > 0) velocity.x -= drag.x * Time.deltaTime;
+			else if (velocity.x + (drag.x * Time.deltaTime) < 0) velocity.x += drag.x * Time.deltaTime;
 			else velocity.x = 0;
 		}
 
-		this.x += velocity.x * Time.fixedDeltaTime;
+		this.x += velocity.x * Time.deltaTime;
 	
 		Ray lCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
 		Ray rCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
@@ -136,9 +112,9 @@ public class WTPlayer : WTPhysicsNode {
 		RaycastHit lCeilingHit;
 		RaycastHit rCeilingHit;
 
-		velocity.y += WTConfig.gravity * Time.fixedDeltaTime;
+		velocity.y += WTConfig.gravity * Time.deltaTime;
 
-		float yRayDistance = Mathf.Abs(velocity.y * FPhysics.POINTS_TO_METERS * Time.fixedDeltaTime);
+		float yRayDistance = Mathf.Abs(velocity.y * FPhysics.POINTS_TO_METERS * Time.deltaTime);
 
 		// downwards
 		if (velocity.y < 0) {
@@ -150,14 +126,7 @@ public class WTPlayer : WTPhysicsNode {
 						velocity.y = 0;
 					}
 				  	this.y = lFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.01f;
-
-					FSprite s = new FSprite("whiteSquare");
-					s.scale = 0.3f;
-					s.SetPosition(lFloorHit.point * FPhysics.METERS_TO_POINTS);
-					s.color = Color.red;
-					this.container.AddChild(s);
 				}
-				else isOnGround = false;
 			}
 
 			else if (Physics.Raycast(rFloorRay, out rFloorHit, yRayDistance)) {
@@ -168,15 +137,9 @@ public class WTPlayer : WTPhysicsNode {
 						velocity.y = 0;
 					}
 					this.y = rFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.01f;
-
-					FSprite s = new FSprite("whiteSquare");
-					s.scale = 0.3f;
-					s.SetPosition(rFloorHit.point * FPhysics.METERS_TO_POINTS);
-					s.color = Color.red;
-					this.container.AddChild(s);
 				}
-				else isOnGround = false;
 			}
+			else isOnGround = false;
 		}
 
 		// upwards
@@ -197,6 +160,6 @@ public class WTPlayer : WTPhysicsNode {
 		if (velocity.y > maxVelocity.y) velocity.y = maxVelocity.y;
 		else if (velocity.y < -maxVelocity.y) velocity.y = -maxVelocity.y;
 
-		this.y += velocity.y * Time.fixedDeltaTime;
+		this.y += velocity.y * Time.deltaTime;
 	}
 }
