@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class WTPlayer : WTPhysicsNode {
 	Vector2 velocity = Vector2.zero;
-	Vector2 maxVelocity = new Vector2(0.1f, 0.2f);
-	Vector2 drag = new Vector2(0.8f, 0);
+	Vector2 maxVelocity = new Vector2(300, 500);
+	Vector2 drag = new Vector2(2500, 0);
 	FSprite sprite;
 	bool isJumping = false;
 	bool isMoving = false;
@@ -25,106 +25,158 @@ public class WTPlayer : WTPhysicsNode {
 	}
 
 	override public void HandleFixedUpdate() {
-		base.HandleFixedUpdate();
-
-		float velAmt = 10;
+		float velAmt = 3000;
 
 		if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) isMoving = true;
 		else isMoving = false;
 
 		if (Input.GetKey(KeyCode.RightArrow)) {
-			velocity.x += velAmt * Time.deltaTime;
+			velocity.x += velAmt * Time.fixedDeltaTime;
 		}
 		else if (Input.GetKey(KeyCode.LeftArrow)) {
-			velocity.x -= velAmt * Time.deltaTime;
+			velocity.x -= velAmt * Time.fixedDeltaTime;
 		}
 
 		if (isOnGround && Input.GetKeyDown(KeyCode.Space)) {
-			velocity.y = velAmt * Time.deltaTime;
+			velocity.y = maxVelocity.y;
 			isOnGround = false;
 			isJumping = true;
 		}
 
+		if (velocity.x > maxVelocity.x) velocity.x = maxVelocity.x;
+		else if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
+
+		// jump
+
+		Ray lLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.left);
+		Ray lHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.left);
+		Ray rLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.right);
+		Ray rHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.right);
 		Ray lFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
 		Ray rFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
-		Ray lLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y+0.1f, physicsComponent.collider.bounds.center.z), Vector3.left);
-		Ray lHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y-0.1f, physicsComponent.collider.bounds.center.z), Vector3.left);
-		Ray rLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y+0.1f, physicsComponent.collider.bounds.center.z), Vector3.right);
-		Ray rHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y-0.1f, physicsComponent.collider.bounds.center.z), Vector3.right);
-		Ray lCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
-		Ray rCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
-		RaycastHit lFloorHit;
-		RaycastHit rFloorHit;
+
 		RaycastHit lLowHit;
 		RaycastHit lHighHit;
 		RaycastHit rLowHit;
 		RaycastHit rHighHit;
-		RaycastHit lCeilingHit;
-		RaycastHit rCeilingHit;
-		float rayDistance = 0.2f;
+
+		float xRayDistance = Mathf.Abs(velocity.x * FPhysics.POINTS_TO_METERS * Time.fixedDeltaTime);
 
 		// leftwards
-		if (Physics.Raycast(lLowRay, out lLowHit, rayDistance)) {
-			if (velocity.x <= 0 && lLowHit.collider.gameObject.CompareTag("Solid")) {
-				this.x = lLowHit.point.x * FPhysics.METERS_TO_POINTS + sprite.width / 2f + 0.2f;
-				velocity.x = 0;
-			}
-		}
+		if (velocity.x < 0) {
+			if (Physics.Raycast(lLowRay, out lLowHit, xRayDistance)) {
+				if (lLowHit.collider.gameObject.CompareTag("Solid")) {
+					this.x = (lLowHit.point.x + physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS + 0.01f;
+					velocity.x = 0;
 
-		else if (Physics.Raycast(lHighRay, out lHighHit, rayDistance)) {
-			if (velocity.x <= 0 && lHighHit.collider.gameObject.CompareTag("Solid")) {
-				this.x = lHighHit.point.x * FPhysics.METERS_TO_POINTS + sprite.width / 2f + 0.2f;
-				velocity.x = 0;
+					FSprite s = new FSprite("whiteSquare");
+					s.scale = 0.3f;
+					s.SetPosition(lLowHit.point * FPhysics.METERS_TO_POINTS);
+					s.color = Color.red;
+					this.container.AddChild(s);
+				}
+			}
+
+			else if (Physics.Raycast(lHighRay, out lHighHit, xRayDistance)) {
+				if (lHighHit.collider.gameObject.CompareTag("Solid")) {
+					this.x = (lHighHit.point.x + physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS + 0.01f;
+					velocity.x = 0;
+
+					FSprite s = new FSprite("whiteSquare");
+					s.scale = 0.3f;
+					s.SetPosition(lHighHit.point * FPhysics.METERS_TO_POINTS);
+					s.color = Color.red;
+					this.container.AddChild(s);
+				}
 			}
 		}
 
 		// rightwards
-		if (Physics.Raycast(rLowRay, out rLowHit, rayDistance)) {
-			if (velocity.x >= 0 && rLowHit.collider.gameObject.CompareTag("Solid")) {
-				this.x = rLowHit.point.x * FPhysics.METERS_TO_POINTS - sprite.width / 2f - 0.1f;
-				velocity.x = 0;
+		else if (velocity.x > 0) {
+			if (Physics.Raycast(rLowRay, out rLowHit, xRayDistance)) {
+				if (rLowHit.collider.gameObject.CompareTag("Solid")) {
+					this.x = (rLowHit.point.x - physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS - 0.01f;
+					velocity.x = 0;
+
+					FSprite s = new FSprite("whiteSquare");
+					s.scale = 0.3f;
+					s.SetPosition(rLowHit.point * FPhysics.METERS_TO_POINTS);
+					s.color = Color.red;
+					this.container.AddChild(s);
+				}
+			}
+
+			else if (Physics.Raycast(rHighRay, out rHighHit, xRayDistance)) {
+				if (rHighHit.collider.gameObject.CompareTag("Solid")) {
+					this.x = (rHighHit.point.x - physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS - 0.01f;
+					velocity.x = 0;
+
+					FSprite s = new FSprite("whiteSquare");
+					s.scale = 0.3f;
+					s.SetPosition(rHighHit.point * FPhysics.METERS_TO_POINTS);
+					s.color = Color.red;
+					this.container.AddChild(s);
+				}
 			}
 		}
 
-		else if (Physics.Raycast(rHighRay, out rHighHit, rayDistance)) {
-			if (velocity.x >= 0 && rHighHit.collider.gameObject.CompareTag("Solid")) {
-				this.x = rHighHit.point.x * FPhysics.METERS_TO_POINTS - sprite.width / 2f - 0.1f;
-				velocity.x = 0;
-			}
+		if (!isMoving) {
+			if (velocity.x - (drag.x * Time.fixedDeltaTime) > 0) velocity.x -= drag.x * Time.fixedDeltaTime;
+			else if (velocity.x + (drag.x * Time.fixedDeltaTime) < 0) velocity.x += drag.x * Time.fixedDeltaTime;
+			else velocity.x = 0;
 		}
+
+		this.x += velocity.x * Time.fixedDeltaTime;
+	
+		Ray lCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
+		Ray rCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
+		RaycastHit lFloorHit;
+		RaycastHit rFloorHit;
+		RaycastHit lCeilingHit;
+		RaycastHit rCeilingHit;
+
+		velocity.y += WTConfig.gravity * Time.fixedDeltaTime;
+
+		float yRayDistance = Mathf.Abs(velocity.y * FPhysics.POINTS_TO_METERS * Time.fixedDeltaTime);
 
 		// downwards
-		if (Physics.Raycast(lFloorRay, out lFloorHit, rayDistance)) {
-			if (lFloorHit.collider.gameObject.CompareTag("Solid")) {
-				if (isOnGround == false && velocity.y <= 0) {
-					isOnGround = true;
-					isJumping = false;
-					velocity.y = 0;
+		if (velocity.y < 0) {
+			if (Physics.Raycast(lFloorRay, out lFloorHit, yRayDistance)) {
+				if (lFloorHit.collider.gameObject.CompareTag("Solid")) {
+					if (velocity.y <= 0) {
+						isOnGround = true;
+						isJumping = false;
+						velocity.y = 0;
+					}
+				  	this.y = lFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.1f;
+
+					FSprite s = new FSprite("whiteSquare");
+					s.scale = 0.3f;
+					s.SetPosition(lFloorHit.point * FPhysics.METERS_TO_POINTS);
+					s.color = Color.red;
+					this.container.AddChild(s);
 				}
-			  	if (!isJumping) this.y = lFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.1f;
+				else isOnGround = false;
 			}
-			else {
-				isOnGround = false;
-				velocity.y += WTConfig.gravity * Time.deltaTime;
+
+			else if (Physics.Raycast(rFloorRay, out rFloorHit, yRayDistance)) {
+				if (rFloorHit.collider.gameObject.CompareTag("Solid")) {
+					if (velocity.y <= 0) {
+						isOnGround = true;
+						isJumping = false;
+						velocity.y = 0;
+					}
+					this.y = rFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.1f;
+
+					FSprite s = new FSprite("whiteSquare");
+					s.scale = 0.3f;
+					s.SetPosition(rFloorHit.point * FPhysics.METERS_TO_POINTS);
+					s.color = Color.red;
+					this.container.AddChild(s);
+				}
+				else isOnGround = false;
 			}
 		}
-
-		else if (Physics.Raycast(rFloorRay, out rFloorHit, rayDistance)) {
-			if (rFloorHit.collider.gameObject.CompareTag("Solid")) {
-				if (isOnGround == false && velocity.y <= 0) {
-					isOnGround = true;
-					isJumping = false;
-					velocity.y = 0;
-				}
-				if (!isJumping) this.y = rFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.1f;
-			}
-			else {
-				isOnGround = false;
-				velocity.y += WTConfig.gravity * Time.deltaTime;
-			}
-		}
-
-		else velocity.y += WTConfig.gravity * Time.deltaTime;
 
 		// upwards
 //		if (Physics.Raycast(lCeilingRay, out lCeilingHit, rayDistance)) {
@@ -141,19 +193,9 @@ public class WTPlayer : WTPhysicsNode {
 //			velocity.y += WTConfig.gravity * Time.deltaTime;
 //		}
 
-		if (velocity.x > maxVelocity.x) velocity.x = maxVelocity.x;
-		else if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
-
 		if (velocity.y > maxVelocity.y) velocity.y = maxVelocity.y;
 		else if (velocity.y < -maxVelocity.y) velocity.y = -maxVelocity.y;
 
-		if (!isMoving) {
-			if (velocity.x - (drag.x * Time.deltaTime) > 0) velocity.x -= drag.x * Time.deltaTime;
-			else if (velocity.x + (drag.x * Time.deltaTime) < 0) velocity.x += drag.x * Time.deltaTime;
-			else velocity.x = 0;
-		}
-
-		this.x += (velocity.x * 2000) * Time.deltaTime;
-		this.y += (velocity.y * 2000) * Time.deltaTime;
+		this.y += velocity.y * Time.fixedDeltaTime;
 	}
 }
