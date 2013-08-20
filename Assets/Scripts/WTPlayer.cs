@@ -23,7 +23,7 @@ public class WTPlayer : WTPhysicsNode {
 		physicsComponent.AddBoxCollider(width, height);
 		physicsComponent.SetupPhysicMaterial(0.0f, 0.0f, 0.0f, PhysicMaterialCombine.Minimum);
 	}
-
+	
 	override public void HandleFixedUpdate() {
 		float velAmt = 3000;
 
@@ -52,8 +52,6 @@ public class WTPlayer : WTPhysicsNode {
 		Ray lHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.left);
 		Ray rLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.right);
 		Ray rHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.right);
-		Ray lFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
-		Ray rFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
 
 		RaycastHit lLowHit;
 		RaycastHit lHighHit;
@@ -130,6 +128,9 @@ public class WTPlayer : WTPhysicsNode {
 	
 		Ray lCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
 		Ray rCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
+		Ray lFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
+		Ray rFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
+
 		RaycastHit lFloorHit;
 		RaycastHit rFloorHit;
 		RaycastHit lCeilingHit;
@@ -148,7 +149,7 @@ public class WTPlayer : WTPhysicsNode {
 						isJumping = false;
 						velocity.y = 0;
 					}
-				  	this.y = lFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.1f;
+				  	this.y = lFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.01f;
 
 					FSprite s = new FSprite("whiteSquare");
 					s.scale = 0.3f;
@@ -166,7 +167,7 @@ public class WTPlayer : WTPhysicsNode {
 						isJumping = false;
 						velocity.y = 0;
 					}
-					this.y = rFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.1f;
+					this.y = rFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.01f;
 
 					FSprite s = new FSprite("whiteSquare");
 					s.scale = 0.3f;
