@@ -20,7 +20,7 @@ public class WTMainScene : WTScene {
 
 		player = new WTPlayer("player", WTConfig.tileSize / 2f, WTConfig.tileSize * 0.95f);
 		Vector2 newPos = WTTileMap.instance.GetOriginOfTile(xTile, yTile);
-		player.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f + 100);
+		player.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f);
 		AddChild(player);
 		//player.physicsComponent.StartPhysics();
 	}
