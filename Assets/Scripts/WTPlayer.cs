@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class WTPlayer : WTPhysicsNode {
 	Vector2 velocity = Vector2.zero;
-	Vector2 maxVelocity = new Vector2(300, 500);
+	Vector2 maxVelocity = new Vector2(200, 475);
 	Vector2 drag = new Vector2(2500, 0);
 	FSprite sprite;
 	//bool isJumping = false;
@@ -141,19 +141,21 @@ public class WTPlayer : WTPhysicsNode {
 		}
 
 		// upwards
-//		if (Physics.Raycast(lCeilingRay, out lCeilingHit, rayDistance)) {
-//			if (lCeilingHit.collider.gameObject.CompareTag("Solid")) {
-//				this.y = lCeilingHit.point.y * FPhysics.METERS_TO_POINTS - sprite.height / 2f + 0.1f;
-//			}
-//			velocity.y += WTConfig.gravity * Time.deltaTime;
-//		}
-//
-//		else if (Physics.Raycast(rCeilingRay, out rCeilingHit, rayDistance)) {
-//			if (rCeilingHit.collider.gameObject.CompareTag("Solid")) {
-//				this.y = rCeilingHit.point.y * FPhysics.METERS_TO_POINTS - sprite.height / 2f + 0.1f;
-//			}
-//			velocity.y += WTConfig.gravity * Time.deltaTime;
-//		}
+		else if (velocity.y > 0) {
+			if (WTPhysicsRay.Raycast(lCeilingRay, out lCeilingHit, yRayDistance)) {
+				if (lCeilingHit.GetPhysicsNode().CompareTag("Solid")) {
+					this.y = lCeilingHit.GetPoint().y - physicsComponent.GetGlobalHitBox().height / 2f - 0.01f;
+					velocity.y = 0;
+				}
+			}
+
+			else if (WTPhysicsRay.Raycast(rCeilingRay, out rCeilingHit, yRayDistance)) {
+				if (rCeilingHit.GetPhysicsNode().CompareTag("Solid")) {
+					this.y = rCeilingHit.GetPoint().y - physicsComponent.GetGlobalHitBox().height / 2f - 0.01f;
+					velocity.y = 0;
+				}
+			}
+		}
 
 		if (velocity.y > maxVelocity.y) velocity.y = maxVelocity.y;
 		else if (velocity.y < -maxVelocity.y) velocity.y = -maxVelocity.y;

@@ -3,13 +3,13 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WTPhysicsComponent.cs">
     <Files>
       <File FileName="Assets/Scripts/WTMain.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTPhysicsComponent.cs" Line="72" Column="18" />
-      <File FileName="Assets/Scripts/WTPhysicsNode.cs" Line="34" Column="63" />
+      <File FileName="Assets/Scripts/WTPhysicsComponent.cs" Line="20" Column="27" />
+      <File FileName="Assets/Scripts/WTPhysicsNode.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTWall.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTMainScene.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTHandler.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTScene.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTPlayer.cs" Line="48" Column="3" />
+      <File FileName="Assets/Scripts/WTPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTUtils.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Display/FNode.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTTileMap.cs" Line="1" Column="1" />
@@ -21,7 +21,7 @@
       <File FileName="Assets/Plugins/Futile/Physics/FPNodeLink.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Display/FLabel.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/TweakVals.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTPhysicsRay.cs" Line="19" Column="24" />
+      <File FileName="Assets/Scripts/WTPhysicsRay.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

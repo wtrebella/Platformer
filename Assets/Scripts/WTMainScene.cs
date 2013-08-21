@@ -22,11 +22,12 @@ public class WTMainScene : WTScene {
 		Vector2 newPos = WTTileMap.instance.GetOriginOfTile(xTile, yTile);
 		player.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f);
 		AddChild(player);
-		//player.physicsComponent.StartPhysics();
+
+		ListenForUpdate(HandleUpdate);
 	}
 
 	override public void HandleUpdate() {
-
+		this.SetPosition(Futile.screen.halfWidth - player.x, Futile.screen.halfHeight - player.y);
 	}
 
 	override public void HandleMultiTouch(FTouch[] touches) {

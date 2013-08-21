@@ -15,6 +15,7 @@ public class WTWall : WTPhysicsNode {
 
 		physicsComponent.gameObject.isStatic = true;
 		physicsComponent.gameObject.tag = "Solid";
+		physicsComponent.AddRigidBody(0.1f, 10f);
 		physicsComponent.AddBoxCollider(width, height);
 		physicsComponent.SetupPhysicMaterial(0.0f, 0.0f, 0.0f, PhysicMaterialCombine.Minimum);
 	}

@@ -18,12 +18,14 @@ public class WTTileMap : FContainer {
 
 		for (int i = 0; i < mapWidth; i++) {
 			int spotHeight = Random.Range(0, 3);
+			int spaceHeight = Random.Range(3, 6);
+
 			for (int j = 0; j < mapHeight; j++) {
 				WTTileData tileData = new WTTileData();
 				tileData.x = i;
 				tileData.y = j;
 
-				if (j <= spotHeight) tileData.tileType = TileType.Solid;
+				if (j <= spotHeight || j > spotHeight + spaceHeight) tileData.tileType = TileType.Solid;
 				else tileData.tileType = TileType.Empty;
 
 				mapData[i][j] = tileData;
