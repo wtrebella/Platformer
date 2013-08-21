@@ -48,6 +48,13 @@ public class WTPhysicsComponent : MonoBehaviour
 		rigidbody.isKinematic = true;
 	}
 
+	public Rect GetGlobalHitBox() {
+		return new Rect(gameObject.collider.bounds.min.x * FPhysics.METERS_TO_POINTS,
+		                gameObject.collider.bounds.min.y * FPhysics.METERS_TO_POINTS,
+		                gameObject.collider.bounds.size.x * FPhysics.METERS_TO_POINTS,
+		                gameObject.collider.bounds.size.y * FPhysics.METERS_TO_POINTS);
+	}
+
 	public void SetIsTrigger(bool isTrigger) {
 		gameObject.GetComponent<Collider>().isTrigger = isTrigger;
 	}
@@ -63,7 +70,7 @@ public class WTPhysicsComponent : MonoBehaviour
 		rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 		rb.angularDrag = angularDrag;
 		rb.mass = mass;
-		rb.maxAngularVelocity = WTUtils.defaultRigidBodyMaxAngularVelocity;
+		rb.maxAngularVelocity = 10000;
 		rb.isKinematic = true;
 		return rb;
 	}

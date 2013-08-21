@@ -30,6 +30,10 @@ public class WTPhysicsNode : FContainer {
 		physicsComponent.SetRotation(rotation);
 	}
 
+	public bool CompareTag(string tagToCompare) {
+		return physicsComponent.gameObject.CompareTag(tagToCompare);
+	}
+
 	private void InitPhysicsComponent(string name) {
 		physicsComponent = WTPhysicsComponent.Create(name);
 		physicsComponent.Init(Vector2.zero, 0, this);

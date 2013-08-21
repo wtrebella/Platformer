@@ -16,7 +16,7 @@ public class WTPhysicsRay {
 		float yOrigin = node.physicsComponent.collider.bounds.min.y + originInPercents.y * node.physicsComponent.collider.bounds.size.y;
 
 		xOrigin = Mathf.Min(xOrigin, node.physicsComponent.collider.bounds.max.x);
-		yOrigin = Mathf.Min(xOrigin, node.physicsComponent.collider.bounds.max.y);
+		yOrigin = Mathf.Min(yOrigin, node.physicsComponent.collider.bounds.max.y);
 
 		ray = new Ray(new Vector3(xOrigin, yOrigin, node.physicsComponent.collider.bounds.center.z), direction);
 

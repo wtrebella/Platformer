@@ -7,7 +7,7 @@ public class WTPlayer : WTPhysicsNode {
 	Vector2 maxVelocity = new Vector2(300, 500);
 	Vector2 drag = new Vector2(2500, 0);
 	FSprite sprite;
-	bool isJumping = false;
+	//bool isJumping = false;
 	bool isMoving = false;
 	bool isOnGround = false;
 
@@ -40,38 +40,36 @@ public class WTPlayer : WTPhysicsNode {
 		if (isOnGround && Input.GetKeyDown(KeyCode.Space)) {
 			velocity.y = maxVelocity.y;
 			isOnGround = false;
-			isJumping = true;
+			//isJumping = true;
 		}
 
 		if (velocity.x > maxVelocity.x) velocity.x = maxVelocity.x;
 		else if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
 
-		// jump
+		WTPhysicsRay lLowRay = new WTPhysicsRay(this, new Vector2(0, 0), Vector3.left);
+		WTPhysicsRay lHighRay = new WTPhysicsRay(this, new Vector2(0, 1), Vector3.left);
+		WTPhysicsRay rLowRay = new WTPhysicsRay(this, new Vector2(1, 0), Vector3.right);
+		WTPhysicsRay rHighRay = new WTPhysicsRay(this, new Vector2(1, 1), Vector3.right);
 
-		Ray lLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.left);
-		Ray lHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.left);
-		Ray rLowRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.right);
-		Ray rHighRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.right);
+		WTPhysicsRaycastHit lLowHit;
+		WTPhysicsRaycastHit lHighHit;
+		WTPhysicsRaycastHit rLowHit;
+		WTPhysicsRaycastHit rHighHit;
 
-		RaycastHit lLowHit;
-		RaycastHit lHighHit;
-		RaycastHit rLowHit;
-		RaycastHit rHighHit;
-
-		float xRayDistance = Mathf.Abs(velocity.x * FPhysics.POINTS_TO_METERS * Time.deltaTime);
+		float xRayDistance = Mathf.Abs(velocity.x * Time.deltaTime);
 
 		// leftwards
 		if (velocity.x < 0) {
-			if (Physics.Raycast(lLowRay, out lLowHit, xRayDistance)) {
-				if (lLowHit.collider.gameObject.CompareTag("Solid")) {
-					this.x = (lLowHit.point.x + physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS + 0.01f;
+			if (WTPhysicsRay.Raycast(lLowRay, out lLowHit, xRayDistance)) {
+				if (lLowHit.GetPhysicsNode().CompareTag("Solid")) {
+					this.x = lLowHit.GetPoint().x + physicsComponent.GetGlobalHitBox().width / 2f + 0.01f;
 					velocity.x = 0;
 				}
 			}
 
-			else if (Physics.Raycast(lHighRay, out lHighHit, xRayDistance)) {
-				if (lHighHit.collider.gameObject.CompareTag("Solid")) {
-					this.x = (lHighHit.point.x + physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS + 0.01f;
+			else if (WTPhysicsRay.Raycast(lHighRay, out lHighHit, xRayDistance)) {
+				if (lHighHit.GetPhysicsNode().CompareTag("Solid")) {
+					this.x = lHighHit.GetPoint().x + physicsComponent.GetGlobalHitBox().width / 2f + 0.01f;
 					velocity.x = 0;
 				}
 			}
@@ -79,16 +77,16 @@ public class WTPlayer : WTPhysicsNode {
 
 		// rightwards
 		else if (velocity.x > 0) {
-			if (Physics.Raycast(rLowRay, out rLowHit, xRayDistance)) {
-				if (rLowHit.collider.gameObject.CompareTag("Solid")) {
-					this.x = (rLowHit.point.x - physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS - 0.01f;
+			if (WTPhysicsRay.Raycast(rLowRay, out rLowHit, xRayDistance)) {
+				if (rLowHit.GetPhysicsNode().CompareTag("Solid")) {
+					this.x = rLowHit.GetPoint().x - physicsComponent.GetGlobalHitBox().width / 2f - 0.01f;
 					velocity.x = 0;
 				}
 			}
 
-			else if (Physics.Raycast(rHighRay, out rHighHit, xRayDistance)) {
-				if (rHighHit.collider.gameObject.CompareTag("Solid")) {
-					this.x = (rHighHit.point.x - physicsComponent.collider.bounds.size.x / 2f) * FPhysics.METERS_TO_POINTS - 0.01f;
+			else if (WTPhysicsRay.Raycast(rHighRay, out rHighHit, xRayDistance)) {
+				if (rHighHit.GetPhysicsNode().CompareTag("Solid")) {
+					this.x = rHighHit.GetPoint().x - physicsComponent.GetGlobalHitBox().width / 2f - 0.01f;
 					velocity.x = 0;
 				}
 			}
@@ -102,41 +100,41 @@ public class WTPlayer : WTPhysicsNode {
 
 		this.x += velocity.x * Time.deltaTime;
 	
-		Ray lCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
-		Ray rCeilingRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.max.y, physicsComponent.collider.bounds.center.z), Vector3.up);
-		Ray lFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.min.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
-		Ray rFloorRay = new Ray(new Vector3(physicsComponent.collider.bounds.max.x, physicsComponent.collider.bounds.min.y, physicsComponent.collider.bounds.center.z), Vector3.down);
+		WTPhysicsRay lCeilingRay = new WTPhysicsRay(this, new Vector2(0, 1), Vector3.up);
+		WTPhysicsRay rCeilingRay = new WTPhysicsRay(this, new Vector2(1, 1), Vector3.up);
+		WTPhysicsRay lFloorRay = new WTPhysicsRay(this, new Vector2(0, 0), Vector3.down);
+		WTPhysicsRay rFloorRay = new WTPhysicsRay(this, new Vector2(1, 0), Vector3.down);
 
-		RaycastHit lFloorHit;
-		RaycastHit rFloorHit;
-		RaycastHit lCeilingHit;
-		RaycastHit rCeilingHit;
+		WTPhysicsRaycastHit lFloorHit;
+		WTPhysicsRaycastHit rFloorHit;
+		WTPhysicsRaycastHit lCeilingHit;
+		WTPhysicsRaycastHit rCeilingHit;
 
 		velocity.y += WTConfig.gravity * Time.deltaTime;
 
-		float yRayDistance = Mathf.Abs(velocity.y * FPhysics.POINTS_TO_METERS * Time.deltaTime);
+		float yRayDistance = Mathf.Abs(velocity.y * Time.deltaTime);
 
 		// downwards
 		if (velocity.y < 0) {
-			if (Physics.Raycast(lFloorRay, out lFloorHit, yRayDistance)) {
-				if (lFloorHit.collider.gameObject.CompareTag("Solid")) {
+			if (WTPhysicsRay.Raycast(lFloorRay, out lFloorHit, yRayDistance)) {
+				if (lFloorHit.GetPhysicsNode().CompareTag("Solid")) {
 					if (velocity.y <= 0) {
 						isOnGround = true;
-						isJumping = false;
+						//isJumping = false;
 						velocity.y = 0;
 					}
-				  	this.y = lFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.01f;
+					this.y = lFloorHit.GetPoint().y + physicsComponent.GetGlobalHitBox().height / 2f + 0.01f;
 				}
 			}
 
-			else if (Physics.Raycast(rFloorRay, out rFloorHit, yRayDistance)) {
-				if (rFloorHit.collider.gameObject.CompareTag("Solid")) {
+			else if (WTPhysicsRay.Raycast(rFloorRay, out rFloorHit, yRayDistance)) {
+				if (rFloorHit.GetPhysicsNode().CompareTag("Solid")) {
 					if (velocity.y <= 0) {
 						isOnGround = true;
-						isJumping = false;
+						//isJumping = false;
 						velocity.y = 0;
 					}
-					this.y = rFloorHit.point.y * FPhysics.METERS_TO_POINTS + sprite.height / 2f + 0.01f;
+					this.y = rFloorHit.GetPoint().y + physicsComponent.GetGlobalHitBox().height / 2f + 0.01f;
 				}
 			}
 			else isOnGround = false;
