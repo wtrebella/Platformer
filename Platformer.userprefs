@@ -1,25 +1,28 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WTConfig.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WTPhysicsRaycastHit.cs">
     <Files>
-      <File FileName="Assets/Scripts/WTMain.cs" Line="34" Column="2" />
-      <File FileName="Assets/Scripts/WTPhysicsComponent.cs" Line="9" Column="55" />
+      <File FileName="Assets/Scripts/WTMain.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTPhysicsComponent.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTPhysicsNode.cs" Line="72" Column="43" />
-      <File FileName="Assets/Scripts/WTWall.cs" Line="17" Column="45" />
-      <File FileName="Assets/Scripts/WTMainScene.cs" Line="23" Column="90" />
+      <File FileName="Assets/Scripts/WTWall.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTMainScene.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTHandler.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTScene.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTPlayer.cs" Line="112" Column="75" />
-      <File FileName="Assets/Scripts/WTUtils.cs" Line="59" Column="81" />
+      <File FileName="Assets/Scripts/WTPlayer.cs" Line="52" Column="35" />
+      <File FileName="Assets/Scripts/WTUtils.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Display/FNode.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTTileMap.cs" Line="47" Column="6" />
+      <File FileName="Assets/Scripts/WTTileMap.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Enums.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WTConfig.cs" Line="6" Column="37" />
+      <File FileName="Assets/Scripts/WTConfig.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/WTTileData.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Physics/FPWorld.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Physics/FPhysics.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Physics/FPNodeLink.cs" Line="1" Column="1" />
       <File FileName="Assets/Plugins/Futile/Display/FLabel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TweakVals.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WTPhysicsRay.cs" Line="9" Column="3" />
+      <File FileName="Assets/Scripts/WTPhysicsRaycastHit.cs" Line="4" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
