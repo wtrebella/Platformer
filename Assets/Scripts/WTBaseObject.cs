@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 public class WTBaseObject : WTPhysicsNode {
 	public Vector2 velocity = Vector2.zero;
-	Vector2 maxVelocity = new Vector2(200, 475);
-	Vector2 drag = new Vector2(2500, 0);
-	FSprite sprite;
-	//bool isJumping = false;
-	bool isMoving = false;
-	bool isOnGround = false;
+	public Vector2 maxVelocity = new Vector2(200, 475);
+	public Vector2 drag = new Vector2(2500, 0);
+	public FSprite sprite;
+	public bool isConstantlyMoving = false;
+	public bool isOnGround = false;
 
 	public WTBaseObject(string name, float width, float height) : base(name) {
 		sprite = new FSprite("whiteSquare");
@@ -72,7 +71,7 @@ public class WTBaseObject : WTPhysicsNode {
 			}
 		}
 
-		if (!isMoving) {
+		if (!isConstantlyMoving) {
 			if (velocity.x - (drag.x * Time.deltaTime) > 0) velocity.x -= drag.x * Time.deltaTime;
 			else if (velocity.x + (drag.x * Time.deltaTime) < 0) velocity.x += drag.x * Time.deltaTime;
 			else velocity.x = 0;
@@ -100,7 +99,6 @@ public class WTBaseObject : WTPhysicsNode {
 				if (lFloorHit.GetPhysicsNode().CompareTag("Solid")) {
 					if (velocity.y <= 0) {
 						isOnGround = true;
-						//isJumping = false;
 						velocity.y = 0;
 					}
 					this.y = lFloorHit.GetPoint().y + physicsComponent.GetGlobalHitBox().height / 2f + 0.01f;
@@ -111,7 +109,6 @@ public class WTBaseObject : WTPhysicsNode {
 				if (rFloorHit.GetPhysicsNode().CompareTag("Solid")) {
 					if (velocity.y <= 0) {
 						isOnGround = true;
-						//isJumping = false;
 						velocity.y = 0;
 					}
 					this.y = rFloorHit.GetPoint().y + physicsComponent.GetGlobalHitBox().height / 2f + 0.01f;
