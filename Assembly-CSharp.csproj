@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Enums.cs" />
      <Compile Include="Assets\Scripts\TweakVals.cs" />
+     <Compile Include="Assets\Scripts\WTBaseObject.cs" />
      <Compile Include="Assets\Scripts\WTConfig.cs" />
      <Compile Include="Assets\Scripts\WTEntity Stuff\WTComponent.cs" />
      <Compile Include="Assets\Scripts\WTEntity Stuff\WTEntity.cs" />

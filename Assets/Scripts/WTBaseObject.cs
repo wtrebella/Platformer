@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WTPlayer : WTPhysicsNode {
-	Vector2 velocity = Vector2.zero;
+public class WTBaseObject : WTPhysicsNode {
+	public Vector2 velocity = Vector2.zero;
 	Vector2 maxVelocity = new Vector2(200, 475);
 	Vector2 drag = new Vector2(2500, 0);
 	FSprite sprite;
@@ -11,7 +11,7 @@ public class WTPlayer : WTPhysicsNode {
 	bool isMoving = false;
 	bool isOnGround = false;
 
-	public WTPlayer(string name, float width, float height) : base(name) {
+	public WTBaseObject(string name, float width, float height) : base(name) {
 		sprite = new FSprite("whiteSquare");
 		sprite.width = width;
 		sprite.height = height;
@@ -19,33 +19,13 @@ public class WTPlayer : WTPhysicsNode {
 		AddChild(sprite);
 
 		physicsComponent.AddRigidBody(0f, 1f);
+		physicsComponent.rigidbody.tag = "Solid";
 		physicsComponent.rigidbody.freezeRotation = true;
 		physicsComponent.AddBoxCollider(width, height);
 		physicsComponent.SetupPhysicMaterial(0.0f, 0.0f, 0.0f, PhysicMaterialCombine.Minimum);
 	}
-	
-	override public void HandleUpdate() {
-		float velAmt = 3000;
 
-		if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) isMoving = true;
-		else isMoving = false;
-
-		if (Input.GetKey(KeyCode.RightArrow)) {
-			velocity.x += velAmt * Time.deltaTime;
-		}
-		else if (Input.GetKey(KeyCode.LeftArrow)) {
-			velocity.x -= velAmt * Time.deltaTime;
-		}
-
-		if (isOnGround && Input.GetKeyDown(KeyCode.Space)) {
-			velocity.y = maxVelocity.y;
-			isOnGround = false;
-			//isJumping = true;
-		}
-
-		if (velocity.x > maxVelocity.x) velocity.x = maxVelocity.x;
-		else if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
-
+	virtual public void UpdateMovement() {
 		WTPhysicsRay lLowRay = new WTPhysicsRay(this, new Vector2(0, 0), Vector3.left);
 		WTPhysicsRay lHighRay = new WTPhysicsRay(this, new Vector2(0, 1), Vector3.left);
 		WTPhysicsRay rLowRay = new WTPhysicsRay(this, new Vector2(1, 0), Vector3.right);
@@ -99,7 +79,7 @@ public class WTPlayer : WTPhysicsNode {
 		}
 
 		this.x += velocity.x * Time.deltaTime;
-	
+
 		WTPhysicsRay lCeilingRay = new WTPhysicsRay(this, new Vector2(0, 1), Vector3.up);
 		WTPhysicsRay rCeilingRay = new WTPhysicsRay(this, new Vector2(1, 1), Vector3.up);
 		WTPhysicsRay lFloorRay = new WTPhysicsRay(this, new Vector2(0, 0), Vector3.down);
@@ -161,24 +141,11 @@ public class WTPlayer : WTPhysicsNode {
 		else if (velocity.y < -maxVelocity.y) velocity.y = -maxVelocity.y;
 
 		this.y += velocity.y * Time.deltaTime;
+	}
 
-		if (Input.GetKeyDown(KeyCode.F)) {
-			WTBaseObject bo = new WTBaseObject("rock", 5, 5);
-			WTTileData tile = WTTileMap.instance.GetTileForPoint(this.GetPosition());
-			Vector2 newPos = WTTileMap.instance.GetOriginOfTile(tile.x + 1, tile.y);
-			float amt = 1500;
+	override public void HandleUpdate() {
+		base.HandleUpdate();
 
-			if (Input.GetKey(KeyCode.LeftArrow)) {
-				bo.SetPosition(this.x - physicsComponent.GetGlobalHitBox().width / 2f, this.y);
-				bo.velocity.x = -amt;
-
-			}
-			else {
-				bo.SetPosition(this.x + physicsComponent.GetGlobalHitBox().width / 2f, this.y);
-				bo.velocity.x = amt;
-			}
-
-			this.container.AddChild(bo);
-		}
+		UpdateMovement();
 	}
 }
