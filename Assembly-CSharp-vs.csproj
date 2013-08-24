@@ -46,7 +46,6 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Enums.cs" />
      <Compile Include="Assets\Scripts\TweakVals.cs" />
-     <Compile Include="Assets\Scripts\WTBaseObject.cs" />
      <Compile Include="Assets\Scripts\WTConfig.cs" />
      <Compile Include="Assets\Scripts\WTEntity Stuff\WTComponent.cs" />
      <Compile Include="Assets\Scripts\WTEntity Stuff\WTEntity.cs" />
@@ -54,6 +53,7 @@
      <Compile Include="Assets\Scripts\WTHandler.cs" />
      <Compile Include="Assets\Scripts\WTMain.cs" />
      <Compile Include="Assets\Scripts\WTMainScene.cs" />
+     <Compile Include="Assets\Scripts\WTMovingObject.cs" />
      <Compile Include="Assets\Scripts\WTPhysicsComponent.cs" />
      <Compile Include="Assets\Scripts\WTPhysicsNode.cs" />
      <Compile Include="Assets\Scripts\WTPhysicsRay.cs" />

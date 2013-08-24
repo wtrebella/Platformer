@@ -18,5 +18,6 @@ public class WTWall : WTPhysicsNode {
 		physicsComponent.AddRigidBody(0.1f, 10f);
 		physicsComponent.AddBoxCollider(width, height);
 		physicsComponent.SetupPhysicMaterial(0.0f, 0.0f, 0.0f, PhysicMaterialCombine.Minimum);
+		physicsComponent.gameObject.layer = LayerMask.NameToLayer("Environment");
 	}
 }

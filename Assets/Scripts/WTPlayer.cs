@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WTPlayer : WTBaseObject {
+public class WTPlayer : WTMovingObject {
 	public DirectionType facingDirection = DirectionType.Right;
 
 	public WTPlayer(string name, float width, float height) : base(name, width, height) {
-
+		physicsComponent.gameObject.layer = LayerMask.NameToLayer("Player");
 	}
 
 	override public void HandleUpdate() {
@@ -17,8 +17,9 @@ public class WTPlayer : WTBaseObject {
 
 	public void UpdateShooting() {
 		if (Input.GetKeyDown(KeyCode.F)) {
-			WTBaseObject bo = new WTBaseObject("rock", 5, 5);
+			WTMovingObject bo = new WTMovingObject("rock", 5, 5);
 			bo.physicsComponent.tag = "Empty";
+			bo.sprite.color = new Color(Random.Range(0f, 0.5f), Random.Range(0f, 0.5f), Random.Range(0f, 0.5f));
 			float amt = 1000;
 
 			if (facingDirection == DirectionType.Left) {

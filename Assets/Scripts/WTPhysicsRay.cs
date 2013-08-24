@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class WTPhysicsRay {
-	public static bool Raycast(WTPhysicsRay ray, out WTPhysicsRaycastHit raycastHit, float distance) {
+	public static bool Raycast(WTPhysicsRay ray, out WTPhysicsRaycastHit raycastHit, float distance, int layerMask = ~0) {
 		raycastHit = new WTPhysicsRaycastHit();
-		return Physics.Raycast(ray.ray, out raycastHit.raycastHit, distance * FPhysics.POINTS_TO_METERS);
+		return Physics.Raycast(ray.ray, out raycastHit.raycastHit, distance * FPhysics.POINTS_TO_METERS, layerMask);
 	}
 
 	public Ray ray;
