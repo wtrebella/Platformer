@@ -4,6 +4,8 @@ using System;
 
 public class WTHandler : FNode, FMultiTouchableInterface {
 	public event Action SignalUpdate;
+	public event Action SignalLateUpdate;
+	public event Action SignalFixedUpdate;
 	public event Action<FTouch[]> SignalMultiTouch;
 
 	public bool isPaused = false;
@@ -11,6 +13,8 @@ public class WTHandler : FNode, FMultiTouchableInterface {
 	public WTHandler() {
 		EnableMultiTouch();
 		ListenForUpdate(HandleUpdate);
+		ListenForUpdate(HandleFixedUpdate);
+		ListenForUpdate(HandleLateUpdate);
 	}
 
 	public void HandleMultiTouch(FTouch[] touches) {
@@ -23,5 +27,17 @@ public class WTHandler : FNode, FMultiTouchableInterface {
 		if (isPaused) return;
 
 		if (SignalUpdate != null) SignalUpdate();
+	}
+
+	public void HandleLateUpdate() {
+		if (isPaused) return;
+
+		if (SignalLateUpdate != null) SignalLateUpdate();
+	}
+
+	public void HandleFixedUpdate() {
+		if (isPaused) return;
+
+		if (SignalFixedUpdate != null) SignalFixedUpdate();
 	}
 }

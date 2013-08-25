@@ -17,8 +17,8 @@ public class WTTileMap : FContainer {
 		for (int i = 0; i < mapWidth; i++) mapData[i] = new WTTileData[mapHeight];
 
 		for (int i = 0; i < mapWidth; i++) {
-			int spotHeight = Random.Range(0, 3);
-			int spaceHeight = Random.Range(3, 6);
+			int spotHeight = Random.Range(0, 2);
+			int spaceHeight = Random.Range(4, 6);
 
 			for (int j = 0; j < mapHeight; j++) {
 				WTTileData tileData = new WTTileData();

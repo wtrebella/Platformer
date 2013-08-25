@@ -7,37 +7,41 @@ public class WTPlayer : WTMovingObject {
 
 	public WTPlayer(string name, float width, float height) : base(name, width, height) {
 		physicsComponent.gameObject.layer = LayerMask.NameToLayer("Player");
+		shouldBounce = false;
+		drag = WTConfig.playerDrag;
+		friction = 1;
 	}
 
 	override public void HandleUpdate() {
 		base.HandleUpdate();
-
 		UpdateShooting();
 	}
 
 	public void UpdateShooting() {
 		if (Input.GetKeyDown(KeyCode.F)) {
-			WTMovingObject bo = new WTMovingObject("rock", 5, 5);
+			WTMovingObject bo = new WTMovingObject("rock", WTConfig.tileSize / 6f, WTConfig.tileSize / 6f);
 			bo.physicsComponent.tag = "Empty";
 			bo.sprite.color = new Color(Random.Range(0f, 0.5f), Random.Range(0f, 0.5f), Random.Range(0f, 0.5f));
-			float amt = 1000;
+			float amt = Random.Range(800, 1200);
 
 			if (facingDirection == DirectionType.Left) {
-				bo.SetPosition(this.x - physicsComponent.GetGlobalHitBox().width / 2f, this.y);
+				bo.SetPosition(this.x, this.y);
 				bo.velocity.x = -amt;
-
 			}
 			else if (facingDirection == DirectionType.Right) {
-				bo.SetPosition(this.x + physicsComponent.GetGlobalHitBox().width / 2f, this.y);
+				bo.SetPosition(this.x, this.y);
 				bo.velocity.x = amt;
 			}
 
+			bo.velocity.y = Mathf.Abs(bo.velocity.x);
+
 			this.container.AddChild(bo);
+			this.container.AddChild(this);
 		}
 	}
 
 	override public void UpdateMovement() {
-		float velAmt = 3000;
+		float velAmt = 6000;
 
 		if (Input.GetKeyDown(KeyCode.RightArrow)) facingDirection = DirectionType.Right;
 		else if (Input.GetKeyDown(KeyCode.LeftArrow)) facingDirection = DirectionType.Left;
@@ -53,12 +57,12 @@ public class WTPlayer : WTMovingObject {
 		}
 
 		if (isOnGround && Input.GetKeyDown(KeyCode.Space)) {
-			velocity.y = maxVelocity.y;
+			velocity.y = WTConfig.maxVelocity.y;
 			isOnGround = false;
 		}
 
-		if (velocity.x > maxVelocity.x) velocity.x = maxVelocity.x;
-		else if (velocity.x < -maxVelocity.x) velocity.x = -maxVelocity.x;
+		if (velocity.x > WTConfig.maxVelocity.x) velocity.x = WTConfig.maxVelocity.x;
+		else if (velocity.x < -WTConfig.maxVelocity.x) velocity.x = -WTConfig.maxVelocity.x;
 	
 		base.UpdateMovement();
 	}

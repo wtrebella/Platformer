@@ -10,6 +10,14 @@ public class WTScene : FContainer {
 
 	}
 
+	virtual public void HandleLateUpdate() {
+
+	}
+
+	virtual public void HandleFixedUpdate() {
+
+	}
+
 	virtual public void HandleMultiTouch(FTouch[] touches) {
 
 	}

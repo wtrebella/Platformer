@@ -27,7 +27,10 @@ public class WTMain : MonoBehaviour {
 
 		handler = new WTHandler();
 		handler.SignalUpdate += HandleUpdate;
+		handler.SignalLateUpdate += HandleLateUpdate;
+		handler.SignalFixedUpdate += HandleFixedUpdate;
 		handler.SignalMultiTouch += HandleMultiTouch;
+
 		Futile.stage.AddChild(handler);
 
 		FPWorld.Create(64.0f);
@@ -42,6 +45,14 @@ public class WTMain : MonoBehaviour {
 
 	public void HandleUpdate() {
 		currentScene.HandleUpdate();
+	}
+
+	public void HandleLateUpdate() {
+		currentScene.HandleLateUpdate();
+	}
+
+	public void HandleFixedUpdate() {
+		currentScene.HandleFixedUpdate();
 	}
 
 	public void HandleMultiTouch(FTouch[] touches) {
