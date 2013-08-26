@@ -6,7 +6,7 @@ public class WTMainScene : WTScene {
 	Rect deadZone;
 
 	public WTMainScene() {
-		float zoneSize = 50;
+		float zoneSize = 75;
 		deadZone = new Rect(Futile.screen.halfWidth - zoneSize / 2f, Futile.screen.halfHeight - zoneSize / 2f, zoneSize, zoneSize);
 		WTTileMap tileMap = new WTTileMap(25, 20);
 		AddChild(tileMap);
@@ -21,13 +21,13 @@ public class WTMainScene : WTScene {
 			}
 		}
 
-		player = new WTPlayer("player", WTConfig.tileSize / 2f, WTConfig.tileSize * 0.95f);
+		player = new WTPlayer(new FSprite("guy"), "player", WTConfig.tileSize / 2f, WTConfig.tileSize * 0.95f);
 		Vector2 newPos = WTTileMap.instance.GetOriginOfTile(xTile, yTile);
 		player.SetPosition(newPos.x + WTConfig.tileSize / 2f, newPos.y + WTConfig.tileSize / 2f);
 		AddChild(player);
 	}
 
-	override public void HandleLateUpdate() {
+	override public void HandleUpdate() {
 		Vector2 globalCharacterPoint = LocalToGlobal(player.GetPosition());
 
 		if (globalCharacterPoint.x < deadZone.xMin) this.x = deadZone.xMin - player.x;

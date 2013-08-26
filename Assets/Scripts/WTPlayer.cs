@@ -5,7 +5,10 @@ using System.Collections.Generic;
 public class WTPlayer : WTMovingObject {
 	public DirectionType facingDirection = DirectionType.Right;
 
-	public WTPlayer(string name, float width, float height) : base(name, width, height) {
+	private float timeLeftGround = 0;
+	private float extraJumpTimeLeeway = 0.1f;
+
+	public WTPlayer(FSprite sprite, string name, float colliderWidth, float colliderHeight) : base(sprite, name, colliderWidth, colliderHeight) {
 		physicsComponent.gameObject.layer = LayerMask.NameToLayer("Player");
 		shouldBounce = false;
 		drag = WTConfig.playerDrag;
@@ -19,7 +22,14 @@ public class WTPlayer : WTMovingObject {
 
 	public void UpdateShooting() {
 		if (Input.GetKeyDown(KeyCode.F)) {
-			WTMovingObject bo = new WTMovingObject("rock", WTConfig.tileSize / 6f, WTConfig.tileSize / 6f);
+			FSprite rock = new FSprite("whiteSquare");
+			float colliderWidth = WTConfig.tileSize / 6f;
+			float colliderHeight = WTConfig.tileSize / 6f;
+			rock.width = colliderWidth;
+			rock.height = colliderHeight;
+			rock.color = Color.red;
+
+			WTMovingObject bo = new WTMovingObject(rock, "rock", colliderWidth, colliderHeight);
 			bo.physicsComponent.tag = "Empty";
 			bo.sprite.color = new Color(Random.Range(0f, 0.5f), Random.Range(0f, 0.5f), Random.Range(0f, 0.5f));
 			float amt = Random.Range(800, 1200);
@@ -56,14 +66,23 @@ public class WTPlayer : WTMovingObject {
 			velocity.x -= velAmt * Time.deltaTime;
 		}
 
-		if (isOnGround && Input.GetKeyDown(KeyCode.Space)) {
+		if ((this.isOnGround || (Time.time - timeLeftGround) <= extraJumpTimeLeeway) && Input.GetKeyDown(KeyCode.Space)) {
 			velocity.y = WTConfig.maxVelocity.y;
-			isOnGround = false;
+			this.isOnGround = false;
 		}
 
 		if (velocity.x > WTConfig.maxVelocity.x) velocity.x = WTConfig.maxVelocity.x;
 		else if (velocity.x < -WTConfig.maxVelocity.x) velocity.x = -WTConfig.maxVelocity.x;
 	
 		base.UpdateMovement();
+	}
+
+	override public bool isOnGround {
+		get {return isOnGround_;}
+		set {
+			if (isOnGround_ != value) timeLeftGround = Time.time;
+
+			isOnGround_ = value;
+		}
 	}
 }

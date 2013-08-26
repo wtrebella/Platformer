@@ -8,25 +8,30 @@ public class WTMovingObject : WTPhysicsNode {
 	public float friction = WTConfig.frictionConstant;
 	public FSprite sprite;
 	public bool isConstantlyMoving = false;
-	public bool isOnGround = false;
 	public bool shouldBounce = true;
 
-	public WTMovingObject(string name, float width, float height) : base(name) {
-		sprite = new FSprite("whiteSquare");
-		sprite.width = width;
-		sprite.height = height;
-		sprite.color = Color.red;
-		AddChild(sprite);
+	protected bool isOnGround_ = false;
+
+	public WTMovingObject(FSprite sprite, string name, float colliderWidth, float colliderHeight) : base(name) {
+		this.sprite = sprite;
+		AddChild(this.sprite);
 
 		physicsComponent.AddRigidBody(0f, 1f);
 		physicsComponent.rigidbody.tag = "Solid";
 		physicsComponent.rigidbody.freezeRotation = true;
-		physicsComponent.AddBoxCollider(width, height);
+		physicsComponent.AddBoxCollider(colliderWidth, colliderHeight);
 		physicsComponent.SetupPhysicMaterial(0.0f, 0.0f, 0.0f, PhysicMaterialCombine.Minimum);
 
 		physicsComponent.gameObject.layer = LayerMask.NameToLayer("Object");
 
 		drag = WTConfig.objectDrag;
+	}
+
+	virtual public bool isOnGround {
+		get {return isOnGround_;}
+		set {
+			isOnGround_ = value;
+		}
 	}
 
 	virtual public void UpdateMovement() {
@@ -92,7 +97,7 @@ public class WTMovingObject : WTPhysicsNode {
 		}
 
 		if (!isConstantlyMoving) {
-			float frictionMultiplier = isOnGround?WTConfig.frictionConstant:1;
+			float frictionMultiplier = this.isOnGround?WTConfig.frictionConstant:1;
 			float dragAmt = drag.x * frictionMultiplier * Time.deltaTime;
 			if (velocity.x - dragAmt > 0) velocity.x -= dragAmt;
 			else if (velocity.x + dragAmt < 0) velocity.x += dragAmt;
@@ -125,7 +130,7 @@ public class WTMovingObject : WTPhysicsNode {
 						}
 						else {
 							velocity.y = 0;
-							isOnGround = true;
+							this.isOnGround = true;
 						}
 					}
 					this.y = lFloorHit.GetPoint().y + physicsComponent.GetGlobalHitBox().height / 2f + 0.01f;
@@ -140,13 +145,13 @@ public class WTMovingObject : WTPhysicsNode {
 						}
 						else {
 							velocity.y = 0;
-							isOnGround = true;
+							this.isOnGround = true;
 						}
 					}
 					this.y = rFloorHit.GetPoint().y + physicsComponent.GetGlobalHitBox().height / 2f + 0.01f;
 				}
 			}
-			else isOnGround = false;
+			else this.isOnGround = false;
 		}
 
 		// upwards
@@ -173,7 +178,7 @@ public class WTMovingObject : WTPhysicsNode {
 
 		this.y += velocity.y * Time.deltaTime;
 	}
-
+	
 	override public void HandleUpdate() {
 		base.HandleUpdate();
 

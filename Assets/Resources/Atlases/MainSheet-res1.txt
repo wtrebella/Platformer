@@ -2,7 +2,7 @@
 
 "Debug/Circle.psd":
 {
-	"frame": {"x":117,"y":409,"w":32,"h":32},
+	"frame": {"x":39,"y":353,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -10,7 +10,7 @@
 },
 "Debug/Square.psd":
 {
-	"frame": {"x":107,"y":449,"w":32,"h":32},
+	"frame": {"x":3,"y":454,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -18,35 +18,11 @@
 },
 "Debug/Triangle.psd":
 {
-	"frame": {"x":71,"y":449,"w":32,"h":32},
+	"frame": {"x":3,"y":418,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
-},
-"coolCircle.psd":
-{
-	"frame": {"x":3,"y":421,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64}
-},
-"coolPolygon.psd":
-{
-	"frame": {"x":71,"y":353,"w":54,"h":52},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":5,"y":7,"w":54,"h":52},
-	"sourceSize": {"w":64,"h":64}
-},
-"coolSquare.psd":
-{
-	"frame": {"x":3,"y":353,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64}
 },
 "franchise.png":
 {
@@ -56,17 +32,17 @@
 	"spriteSourceSize": {"x":1,"y":0,"w":1018,"h":346},
 	"sourceSize": {"w":1024,"h":512}
 },
-"stupidTriangle.psd":
+"guy.psd":
 {
-	"frame": {"x":71,"y":409,"w":42,"h":36},
+	"frame": {"x":3,"y":353,"w":32,"h":61},
 	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":43,"y":8,"w":42,"h":36},
-	"sourceSize": {"w":88,"h":88}
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":61},
+	"sourceSize": {"w":32,"h":61}
 },
 "whiteSquare.png":
 {
-	"frame": {"x":3,"y":489,"w":13,"h":13},
+	"frame": {"x":3,"y":490,"w":13,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":13},
@@ -79,6 +55,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":512},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:4673796664257ad111e93373ade94246$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7cb4a637fffe33e274a0427f8a697faa$"
 }
 }

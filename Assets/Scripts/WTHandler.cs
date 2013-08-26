@@ -13,8 +13,8 @@ public class WTHandler : FNode, FMultiTouchableInterface {
 	public WTHandler() {
 		EnableMultiTouch();
 		ListenForUpdate(HandleUpdate);
-		ListenForUpdate(HandleFixedUpdate);
-		ListenForUpdate(HandleLateUpdate);
+		ListenForFixedUpdate(HandleFixedUpdate);
+		ListenForLateUpdate(HandleLateUpdate);
 	}
 
 	public void HandleMultiTouch(FTouch[] touches) {

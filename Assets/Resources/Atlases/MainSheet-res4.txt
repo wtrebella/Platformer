@@ -2,7 +2,7 @@
 
 "Debug/Circle.psd":
 {
-	"frame": {"x":431,"y":1861,"w":128,"h":128},
+	"frame": {"x":3,"y":1900,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -10,7 +10,7 @@
 },
 "Debug/Square.psd":
 {
-	"frame": {"x":299,"y":1861,"w":128,"h":128},
+	"frame": {"x":3,"y":1768,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -18,35 +18,11 @@
 },
 "Debug/Triangle.psd":
 {
-	"frame": {"x":167,"y":1905,"w":128,"h":128},
+	"frame": {"x":3,"y":1636,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
 	"sourceSize": {"w":128,"h":128}
-},
-"coolCircle.psd":
-{
-	"frame": {"x":3,"y":1649,"w":252,"h":252},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":2,"y":2,"w":252,"h":252},
-	"sourceSize": {"w":256,"h":256}
-},
-"coolPolygon.psd":
-{
-	"frame": {"x":259,"y":1649,"w":216,"h":208},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":20,"y":28,"w":216,"h":208},
-	"sourceSize": {"w":256,"h":256}
-},
-"coolSquare.psd":
-{
-	"frame": {"x":3,"y":1389,"w":256,"h":256},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
-	"sourceSize": {"w":256,"h":256}
 },
 "franchise.png":
 {
@@ -56,17 +32,17 @@
 	"spriteSourceSize": {"x":4,"y":1,"w":4072,"h":1382},
 	"sourceSize": {"w":4096,"h":2048}
 },
-"stupidTriangle.psd":
+"guy.psd":
 {
-	"frame": {"x":3,"y":1905,"w":160,"h":140},
+	"frame": {"x":3,"y":1389,"w":128,"h":243},
 	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":175,"y":35,"w":160,"h":140},
-	"sourceSize": {"w":350,"h":350}
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":243},
+	"sourceSize": {"w":128,"h":243}
 },
 "whiteSquare.png":
 {
-	"frame": {"x":299,"y":1993,"w":50,"h":50},
+	"frame": {"x":135,"y":1389,"w":50,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
@@ -79,6 +55,6 @@
 	"format": "RGBA8888",
 	"size": {"w":4096,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:cb0e6915691cee3760123b5d7d423523$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5a8069f180399999bb0c2d5943be0668$"
 }
 }
