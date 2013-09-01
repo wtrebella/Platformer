@@ -14,7 +14,7 @@ public class WTMain : MonoBehaviour {
 		fp.AddResolutionLevel(1136f, 2.0f, 2.0f, "-res2");
 		fp.AddResolutionLevel(2048f, 4.0f, 4.0f, "-res4");
 		
-		fp.backgroundColor = Color.white;
+		fp.backgroundColor = new Color(0.5f, 0.5f, 0.5f);
 		fp.origin = Vector2.zero;
 
 		Futile.instance.Init(fp);
